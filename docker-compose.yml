@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  api:
+    image: exampledockerapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - sql-server
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "admin123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
