@@ -1,18 +1,31 @@
-using ExampleDocker;
+using ExampleDocker.Data;
+using ExampleDocker.Implementation;
+using ExampleDocker.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddControllers();
 builder.WebHost.UseUrls("http://*:80");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<ExampleDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ExampleDbContext>();
+    dbContext.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseRouting();
+app.MapControllers();
 
 
 //app.UseHttpsRedirection();

@@ -1,6 +1,6 @@
-﻿namespace ExampleDocker;
+﻿namespace ExampleDocker.Models;
 
-public class User
+public class UserEntities
 {
     public int Id { get; set; }
     public string Name { get; set; }

@@ -10,6 +10,10 @@ services:
       - "8080:80"
     depends_on:
       - sql-server
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - app-network
 
   sql-server:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -18,3 +22,23 @@ services:
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
+    networks:
+      - app-network
+
+  #db-init:
+    #image: mcr.microsoft.com/mssql-tools
+    #depends_on:
+    #  - sql-server
+    #environment:
+    #  SA_PASSWORD: "+lRb2B0U0"
+    #entrypoint: /bin/bash -c "sleep 15 && /opt/mssql-tools/bin/sqlcmd -S sql-server -U sa -P +lRb2B0U0 -i /scripts/init-db.sql"
+    #volumes:
+    #  - ./Scripts/init-db.sql:/scripts/init-db.sql
+    #networks:
+    #  - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+

@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using ExampleDocker.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace ExampleDocker;
+namespace ExampleDocker.Data;
 
 public class ExampleDbContext : DbContext
 {
     public ExampleDbContext(DbContextOptions<ExampleDbContext> options) : base(options) { }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<UserEntities> Users { get; set; }
 }
